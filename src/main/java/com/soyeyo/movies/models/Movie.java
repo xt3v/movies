@@ -4,9 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Getter
@@ -16,17 +14,18 @@ import java.util.List;
 public class Movie {
 
     @Id
-    private  int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String title;
     private String images;
     private int rating;
     private String description;
 
-    @ManyToMany(mappedBy = "categories")
+    @ManyToMany(mappedBy = "movies")
     private List<Category> categories;
 
-    public Movie(int id, String title, String images, int rating, String description, List<Category> categories) {
+    public Movie(Long id, String title, String images, int rating, String description, List<Category> categories) {
         this.id = id;
         this.title = title;
         this.images = images;
