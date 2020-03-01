@@ -1,4 +1,9 @@
 package com.soyeyo.movies.services;
 
-public class SecurityService {
+
+public  interface SecurityService{
+
+    String findLoggedInUsername();
+
+    void autologin(String username, String password);
 }
