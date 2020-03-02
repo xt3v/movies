@@ -16,7 +16,6 @@ public class User {
      private Long id;
      private String password;
      private String username;
-     private String email;
 
      @Transient
      private String passwordConfirm;
@@ -24,9 +23,8 @@ public class User {
      @ManyToMany
      private Set<Role> roles;
 
-    public User(Long id, String password, String username,String email) {
+    public User(Long id, String password, String username) {
         this.id = id;
-        this.email = email;
         this.password = password;
         this.username = username;
     }

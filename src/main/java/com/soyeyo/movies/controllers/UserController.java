@@ -28,23 +28,25 @@ public class UserController {
     public String registration(Model model) {
         model.addAttribute("userForm", new User());
 
-        return "registration";
+        return "register";
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String registration(@ModelAttribute("userForm") User userForm,
                                BindingResult bindingResult, Model model) {
+
         userValidator.validate(userForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            return "registration";
+            model.addAttribute("err","ett");
+            return "register";
         }
 
         userService.save(userForm);
 
         securityService.autologin(userForm.getUsername(), userForm.getPasswordConfirm());
 
-        return "redirect:/welcome";
+        return "redirect:/home";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -58,9 +60,9 @@ public class UserController {
         return "login";
     }
 
-    @RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
     public String welcome(Model model) {
-        return "welcome";
+        return "home";
     }
 
 }
