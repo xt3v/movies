@@ -26,13 +26,14 @@
                     <div class="form-group">
                         <label for="username">Username</label>
                         <input type="text" class="form-control" name="username" id="username" aria-describedby="emailHelpId" placeholder="">
-                        <small id="usernameHelpId" class="form-text text-muted">Help text</small>
+                        <small id="usernameHelpId" class="text-danger" th:if="${param.error != null}">Invalid Credentials</small>
                       </div>
                   
 
                    <div class="form-group">
                      <label for="password">Password</label>
                      <input type="password" class="form-control" name="password" id="password" placeholder="">
+                       <small id="passwordHelpId" class="text-danger" th:if="${param.error != null}">Invalid Credentials</small>
                    </div>
                   
                   <button type="submit" class="btn btn-primary">Login</button>
