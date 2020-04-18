@@ -26,21 +26,21 @@
                     <div class="form-group">
                         <label for="">Username</label>
                         <input type="text" class="form-control" th:value="*{username}" name="username"  placeholder="">
-                        <small id="usernameHelpId" class="form-text text-muted">Help text</small>
+                        <small class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></small>
                       </div>
 
                    <div class="form-group">
                      <label for="">Password</label>
                      <input type="password" class="form-control" th:value="*{password}" name="password"  placeholder="">
+                     <small class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{username}"></small>
                    </div>
 
                    <div class="form-group">
                     <label for="">Confirm Password</label>
                     <input type="password" class="form-control" th:value="*{passwordConfirm}" name="passwordConfirm" id="" placeholder="">
+                    <small class="text-danger" th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{username}"></small>
                   </div>
-
-                     <p th:text="#{error}">Welcome to our grocery store!</p>
-                  <button type="submit" class="btn btn-primary">Register</button>
+                     <button type="submit" class="btn btn-primary">Register</button>
                  </form>
               </div>
             </div>

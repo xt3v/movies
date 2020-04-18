@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,10 +36,10 @@ public class UserController {
     public String registration(@ModelAttribute("userForm") User userForm,
                                BindingResult bindingResult, Model model) {
 
+
         userValidator.validate(userForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("err","ett");
             return "register";
         }
 
@@ -60,9 +61,6 @@ public class UserController {
         return "login";
     }
 
-    @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
-    public String welcome(Model model) {
-        return "home";
-    }
+
 
 }
