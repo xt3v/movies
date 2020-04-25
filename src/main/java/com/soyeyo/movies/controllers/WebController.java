@@ -3,8 +3,10 @@ package com.soyeyo.movies.controllers;
 
 import com.soyeyo.movies.dto.MovieDTO;
 import com.soyeyo.movies.models.Category;
-import com.soyeyo.movies.models.User;
+import com.soyeyo.movies.models.Movie;
 import com.soyeyo.movies.repositories.CategoryRepository;
+import com.soyeyo.movies.repositories.MovieRepository;
+import com.soyeyo.movies.services.FileUploader;
 import com.soyeyo.movies.validator.MovieDTOValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -24,6 +26,10 @@ public class WebController {
     CategoryRepository categoryRepository;
     @Autowired
     MovieDTOValidator movieDTOValidator;
+    @Autowired
+    FileUploader fileUploader;
+    @Autowired
+    MovieRepository movieRepository;
 
     @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
     public String welcome(Model model) {
@@ -63,10 +69,21 @@ public class WebController {
 
         movieDTOValidator.validate(movieDTO, bindingResult);
 
-//        if (bindingResult.hasErrors()) {
-//            return "addmovie";
-//        }
+        if (bindingResult.hasErrors()) {
+            return "addmovie";
+        }
 
+        String fileName = fileUploader.storeFile(movieDTO.getImage());
+
+        if(fileName.equals(""))return "addmovie";
+
+        Movie movie = new Movie();
+        movie.setCategories(movieDTO.getCategories());
+        movie.setTitle(movieDTO.getTitle());
+        movie.setDescription(movieDTO.getDescription());
+        movie.setRating(movieDTO.getRating());
+        movie.setImages(fileName);
+        movieRepository.save(movie);
         return "redirect:/";
     }
 }

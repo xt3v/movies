@@ -3,6 +3,7 @@ package com.soyeyo.movies.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.List;
@@ -20,6 +21,9 @@ public class Movie {
     private String title;
     private String images;
     private int rating;
+
+    @Type(type="text")
+    @Column(name = "description")
     private String description;
 
     @ManyToMany(mappedBy = "movies")
