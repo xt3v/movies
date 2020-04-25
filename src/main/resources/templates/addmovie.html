@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head >
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Movies</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+<!-- Just an image -->
+<nav class="navbar navbar-expand navbar-light bg-light ">
+    <a href="/">
+        <h4 class="ml-4">Movies</h4>
+    </a>
+</nav>
+
+<div class="container justify-content-center mt-4">
+    <div class="row mt-4">
+
+        <div class="container col-md-6  mt-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h4 class="card-title">Register</h4>
+                        <form class="mt-4"  th:object="${movieForm}" th:action="@{/user/addmovie}"  method="post" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="title">Title</label>
+                                <input type="text" class="form-control" th:value="*{title}" name="title" id="title"  placeholder="">
+                                <small class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="categories">Title</label>
+                                <select class="form-control selectpicker" th:field="*{categories}"  multiple name="categories" id="categories" >
+                                    <option th:each="category : ${categoriesPredifined}"
+                                            th:value="${category.id}"
+                                            th:text="${category.name}">dip
+                                    </option>
+                                </select>
+                                <small class="text-danger" th:if="${#fields.hasErrors('categories')}" th:errors="*{categories}"></small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <textarea id="description" class="form-control" th:value="*{description}" name="description"  placeholder=""></textarea>
+                                <small class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="rating">Rating</label>
+                                <input type="number" min="1" max="10" id="rating" class="form-control" th:value="*{rating}" name="rating"  placeholder="">
+                                <small class="text-danger" th:if="${#fields.hasErrors('rating')}" th:errors="*{rating}"></small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="image">Rating</label>
+                                <input type="file"  id="image" class="form-control" th:value="*{image}" name="image"  placeholder="">
+                                <small class="text-danger" th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></small>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Register</button>
+                        </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

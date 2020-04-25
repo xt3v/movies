@@ -11,21 +11,27 @@
 <body>
      <!-- Just an image -->
      <nav class="navbar navbar-expand navbar-light bg-light justify-content-between">
-          <a href="/">
+        <a href="/">
             <h4 class="ml-4">Movies</h4>
-          </a>
+        </a>
 
        <div class="nav navbar-nav">
-           <form th:action="@{/logout}" method="post">
+           <a th:if="${ loggedIn }" th:href="@{/user/addmovie}" class="btn btn-primary mr-4">
+               Add Movie
+           </a>
+           <form  th:if="${ loggedIn }" th:action="@{/logout}" method="post">
                <input type="submit" class="btn btn-primary" value="Sign Out"/>
            </form>
-       </div>  
+           <form th:if="${ !loggedIn }" th:action="@{/login}" method="get">
+               <input type="submit" class="btn btn-primary" value="Sign In"/>
+           </form>
+       </div>
+
      </nav>
      
      <div class="container justify-content-center mt-4">
-       <div class="row mt-4">
-            <h4>WELCOME </h4>
-       </div>
+
      </div>
+
 </body>
 </html>
