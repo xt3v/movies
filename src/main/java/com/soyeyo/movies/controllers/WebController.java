@@ -63,11 +63,10 @@ public class WebController {
 
         movieDTOValidator.validate(movieDTO, bindingResult);
 
-        if (bindingResult.hasErrors()) {
-            return "addmovie";
-        }
+//        if (bindingResult.hasErrors()) {
+//            return "addmovie";
+//        }
 
-
-        return welcome(model);
+        return "redirect:/";
     }
 }
