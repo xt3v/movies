@@ -1,7 +1,10 @@
 package com.soyeyo.movies.repositories;
-
 import com.soyeyo.movies.models.Movie;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MovieRepository extends CrudRepository<Movie,Long> {
+import java.util.List;
+
+public interface MovieRepository extends JpaRepository<Movie,Long> {
+
+    List<Movie> findByTitleContainingIgnoreCase(String title);
 }

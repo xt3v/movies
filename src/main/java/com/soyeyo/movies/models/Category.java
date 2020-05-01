@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -19,11 +20,17 @@ public class Category {
 
     private String name;
 
-    @ManyToMany
-    private List<Movie> movies;
+
+
+    @ManyToMany(mappedBy = "categories")
+    private Set<Movie> movies;
 
     public Category(Long id, String name) {
         this.id = id;
+        this.name = name;
+    }
+
+    public Category(String name){
         this.name = name;
     }
 }

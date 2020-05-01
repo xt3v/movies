@@ -18,6 +18,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Controller
 public class WebController {
@@ -32,7 +38,7 @@ public class WebController {
     MovieRepository movieRepository;
 
     @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
-    public String welcome(Model model) {
+    public String welcome(Model model, @RequestParam(required = false) String name,@RequestParam(required = false) String category) {
 
         String currentUserName = "";
         boolean loggedIn = false;
@@ -48,8 +54,41 @@ public class WebController {
             model.addAttribute("username",currentUserName);
         }
 
+        getMovies(model,name,category);
 
         return "home";
+    }
+
+    private void getMovies(Model model, String name, String category) {
+       //categories to populate dropdown
+       model.addAttribute("categories",categoryRepository.findAll());
+
+       if(name != null){
+           if(category != null && !category.trim().equals("-1")){
+               List<Movie> movies = new ArrayList<>();
+               movieRepository.findByTitleContainingIgnoreCase(name).forEach(
+                       movie -> {
+                           for (Category ct: movie.getCategories()) {
+                               if(Long.parseLong(category) == ct.getId()){
+                                   movies.add(movie);
+                                   break;
+                               }
+                           }
+                       }
+               );
+               model.addAttribute("movies",movies);
+           }else{
+               model.addAttribute("movies",movieRepository.findByTitleContainingIgnoreCase(name));
+           }
+       }else if(category != null && !category.trim().equals("-1")){
+           model.addAttribute("movies",categoryRepository.findById(Long.parseLong(category)).get().getMovies());
+       }else{
+           model.addAttribute("movies",movieRepository.findAll());
+           movieRepository.findAll().forEach( m -> {
+
+           });
+       }
+
     }
 
 
@@ -78,12 +117,19 @@ public class WebController {
         if(fileName.equals(""))return "addmovie";
 
         Movie movie = new Movie();
-        movie.setCategories(movieDTO.getCategories());
+        movie.setCategories(new HashSet<>(movieDTO.getCategories()));
         movie.setTitle(movieDTO.getTitle());
         movie.setDescription(movieDTO.getDescription());
         movie.setRating(movieDTO.getRating());
         movie.setImages(fileName);
+
+        movie.getCategories().forEach( category -> {
+            System.out.println(category.getName()+"  id :"+category.getId());
+            System.out.println("size "+category.getMovies().size());
+        });
+
         movieRepository.save(movie);
         return "redirect:/";
+
     }
 }

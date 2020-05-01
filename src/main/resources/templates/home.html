@@ -8,6 +8,9 @@
     <title>Movies</title>
     <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css'><link rel='stylesheet prefetch' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+        @import url("https://fonts.googleapis.com/css?family=Arimo:400,700");
+    </style>
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
@@ -33,27 +36,25 @@
 
 <div class="container-fluid justify-content-center mt-4 main-body">
     <section id="searchArea">
-        <form action="#" method="post" novalidate="novalidate">
+        <form th:action="@{/home}" method="GET" novalidate="novalidate">
             <div class="row d-flex">
                 <div class="col-12 d-flex justify-content-center">
 
                     <div class="col-lg-4 col-md-5 col-sm-12 p-0">
-                        <input type="text" class="form-control search-slt" placeholder="Enter Movie Title">
+                        <input type="text" name="name" class="form-control search-slt" placeholder="Enter Movie Title">
                     </div>
 
                     <div class="col-lg-2 col-md-3 col-sm-12 p-0">
-                        <select class="form-control search-slt" id="exampleFormControlSelect1">
-                            <option>Select Category</option>
-                            <option>Example one</option>
-                            <option>Example one</option>
-                            <option>Example one</option>
-                            <option>Example one</option>
-                            <option>Example one</option>
-                            <option>Example one</option>
+                        <select class="form-control search-slt" name="category" id="category">
+                            <option value="-1">All Categories</option>
+                            <option th:each="category : ${categories}"
+                                    th:value="${category.id}"
+                                    th:text="${category.name}">
+                            </option>
                         </select>
                     </div>
                     <div class="col-lg-2 col-md-3 col-sm-12 p-0">
-                        <button type="button" class="btn btn-primary wrn-btn">Search</button>
+                        <input type="submit" class="btn btn-primary wrn-btn" value="Search">
                     </div>
 
                 </div>
@@ -63,8 +64,7 @@
 
     <section id="movies">
         <div class="movie-container">
-
-            <div class="movie-card">
+            <div th:each="movie : ${movies}" class="movie-card">
                 <div class="movie-header moviePic" style="background: url('http://cdn.collider.com/wp-content/uploads/2017/03/the-dark-tower-poster.jpg');background-size: cover; background-position: 100% 100%;">
                     <div class="header-icon-container">
                         <a href="#">
@@ -75,21 +75,21 @@
                 <div class="movie-content">
                     <div class="movie-content-header">
                         <a href="#">
-                            <h3 class="movie-title">The Dark Tower</h3>
+                            <h3 class="movie-title" th:text="${movie.title}"></h3>
                         </a>
                     </div>
                     <div class="movie-info">
                         <div class="info-section">
                             <label>Categories</label>
-                            <span>Horror, Comedy</span>
+                            <span th:each="cat : ${movie.categories}" th:text="${cat.name}"></span>
                         </div><!--date,time-->
                         <div class="info-section">
                             <label>Rating</label>
-                            <span>6/10</span>
+                            <span th:text="${movie.rating}">/10</span>
                         </div><!--rating-->
                     </div>
                 </div><!--movie-content-->
-            </div>
+            </divt>
         </div>
     </section>
 

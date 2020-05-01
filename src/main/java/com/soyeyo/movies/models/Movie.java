@@ -7,6 +7,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -26,10 +27,11 @@ public class Movie {
     @Column(name = "description")
     private String description;
 
-    @ManyToMany(mappedBy = "movies")
-    private List<Category> categories;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable
+    private Set<Category> categories;
 
-    public Movie(Long id, String title, String images, int rating, String description, List<Category> categories) {
+    public Movie(Long id, String title, String images, int rating, String description, Set<Category> categories) {
         this.id = id;
         this.title = title;
         this.images = images;
