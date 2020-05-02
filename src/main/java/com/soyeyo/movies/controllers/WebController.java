@@ -123,10 +123,6 @@ public class WebController {
         movie.setRating(movieDTO.getRating());
         movie.setImages(fileName);
 
-        movie.getCategories().forEach( category -> {
-            System.out.println(category.getName()+"  id :"+category.getId());
-            System.out.println("size "+category.getMovies().size());
-        });
 
         movieRepository.save(movie);
         return "redirect:/";
