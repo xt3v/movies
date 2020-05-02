@@ -12,21 +12,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Optional;
 
 @Service
 @Getter
 @Setter
 public class FileUploaderImpl implements FileUploader {
 
-    private  Path fileStorageLocation;
+    private Path fileStorageLocation;
 
     @Value("${uploadDir.path}")
     private String uploadDir;
 
-    public FileUploaderImpl(){
-
-    }
+    public FileUploaderImpl(){ }
 
     private void createPath(){
         this.fileStorageLocation = Paths.get(uploadDir)
@@ -45,8 +42,6 @@ public class FileUploaderImpl implements FileUploader {
         // Normalize file name
         String ext = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
         String fileName = System.nanoTime()+"."+ext;
-
-        //String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
         try {
 

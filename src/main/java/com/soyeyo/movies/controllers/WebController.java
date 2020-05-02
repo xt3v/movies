@@ -6,36 +6,38 @@ import com.soyeyo.movies.models.Category;
 import com.soyeyo.movies.models.Movie;
 import com.soyeyo.movies.repositories.CategoryRepository;
 import com.soyeyo.movies.repositories.MovieRepository;
+import com.soyeyo.movies.services.FileFetcher;
 import com.soyeyo.movies.services.FileUploader;
 import com.soyeyo.movies.validator.MovieDTOValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+;
 
 @Controller
 public class WebController {
 
-    @Autowired
-    CategoryRepository categoryRepository;
-    @Autowired
-    MovieDTOValidator movieDTOValidator;
-    @Autowired
-    FileUploader fileUploader;
-    @Autowired
-    MovieRepository movieRepository;
+
+    @Autowired CategoryRepository categoryRepository;
+    @Autowired MovieDTOValidator movieDTOValidator;
+    @Autowired FileUploader fileUploader;
+    @Autowired FileFetcher fileFetcher;
+    @Autowired MovieRepository movieRepository;
 
     @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
     public String welcome(Model model, @RequestParam(required = false) String name,@RequestParam(required = false) String category) {
@@ -84,9 +86,6 @@ public class WebController {
            model.addAttribute("movies",categoryRepository.findById(Long.parseLong(category)).get().getMovies());
        }else{
            model.addAttribute("movies",movieRepository.findAll());
-           movieRepository.findAll().forEach( m -> {
-
-           });
        }
 
     }
@@ -127,5 +126,29 @@ public class WebController {
         movieRepository.save(movie);
         return "redirect:/";
 
+    }
+
+    @GetMapping("/image/{fileName:.+}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
+        // Load file as Resource
+        Resource resource = fileFetcher.loadFileAsResource(fileName);
+
+        // Try to determine file's content type
+        String contentType = null;
+        try {
+            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+        } catch (IOException ex) {
+            System.out.println("Could not determine file type.");
+        }
+
+        // Fallback to the default content type if type could not be determined
+        if(contentType == null) {
+            contentType = "application/octet-stream";
+        }
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
     }
 }

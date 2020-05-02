@@ -65,7 +65,7 @@
     <section id="movies">
         <div class="movie-container">
             <div th:each="movie : ${movies}" class="movie-card">
-                <div class="movie-header moviePic" style="background: url('http://cdn.collider.com/wp-content/uploads/2017/03/the-dark-tower-poster.jpg');background-size: cover; background-position: 100% 100%;">
+                <div class="movie-header moviePic" th:style="${'background: url(/image/'+movie.images+') no-repeat;background-size: 100% 367px; background-position: 100% 100%;'}">
                     <div class="header-icon-container">
                         <a href="#">
                             <i class="material-icons header-icon"></i>
