@@ -125,7 +125,6 @@ public class WebController {
 
         movieRepository.save(movie);
         return "redirect:/";
-
     }
 
     @GetMapping("/image/{fileName:.+}")
@@ -150,5 +149,16 @@ public class WebController {
                 .contentType(MediaType.parseMediaType(contentType))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
+    }
+
+    @GetMapping("/movie/{movieId}")
+    public String moviePage(Model model,@PathVariable("movieId") long movieId){
+        Movie movie = movieRepository.findById(movieId).orElse(null);
+
+        if(movie == null){
+            return "redirect:/";
+        }
+        model.addAttribute("movie",movie);
+        return "movie";
     }
 }

@@ -21,32 +21,26 @@
         <div class="container col-md-10  mt-4">
             <div class="card text-center">
                 <div class="card-body">
-                    <h4 class="card-title text-left">Movie Titler</h4>
+                    <h4 class="card-title text-left" th:text="${movie.title}"></h4>
                     <div class="row d-flex justify-content-center">
                         <div class="conatiner col-md-6">
-                            <img src="./avenge.png" alt="" style="width:100%;height: 60vh;">
+                            <img th:src="${'/image/'+movie.images}" alt="" style="width:100%;height: 60vh;">
                         </div>
                     </div>
                     <div class="row d-flex justify-content-center">
                         <div class="container col-md-6 mt-3 text-left">
-                            <h6>Horror , Comedy</h6>
+                            <h6><span th:each="cat : ${movie.categories}" th:text="${cat.name} "></span></h6>
                         </div>
                     </div>
                     <div class="row d-flex justify-content-center">
                         <div class="container col-md-6 text-left">
-                            <h6>Rating : 5</h6>
+                            <h6>Rating : <span th:text="${movie.rating}"></span></h6>
                         </div>
                     </div>
                     <div class="row d-flex">
                         <div class="container text-left">
                             <h5 style="text-decoration: underline;">Description </h5>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse aliquet purus augue, ac dapibus orci tristique eget. Ut mi metus, pulvinar ac scelerisque non, elementum molestie felis. Maecenas in cursus lectus, a maximus odio. Vestibulum congue lorem fringilla sem faucibus varius. Vivamus non gravida sapien. Aliquam erat volutpat. Integer nec purus lacus. In porta vestibulum euismod. Nulla quis porta lacus, eget faucibus ex. Ut non sapien orci. Nam dignissim elementum magna, nec porta enim venenatis vel. Donec sollicitudin ex blandit, faucibus lacus vel, consequat lacus. Quisque id nisi sit amet mauris congue viverra. Vivamus ut auctor augue. Cras accumsan magna non efficitur egestas. Vivamus mattis ex bibendum leo sagittis, sed sodales eros consequat.
-
-                                Donec at rutrum lacus, varius convallis risus. Mauris aliquet turpis at iaculis tristique. Sed sagittis ante lacus, eu tincidunt urna facilisis quis. Vivamus consequat ligula in placerat sagittis. Aenean feugiat ullamcorper est, at suscipit quam congue ut. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse eu aliquet ipsum. Donec euismod nulla tempus sem elementum, ac sagittis eros porta.
-
-                                Sed at suscipit orci. In ac viverra leo. Vivamus fermentum lectus eu mattis bibendum. Pellentesque sed felis interdum, facilisis arcu eget, sollicitudin ligula. Donec eu enim et arcu mollis finibus. Nulla id dolor varius, consequat elit ac, varius tortor. Quisque venenatis iaculis tempor. Curabitur venenatis quam mauris, iaculis sodales quam efficitur nec. Integer ac iaculis magna. Integer sit amet sem lectus.
-                            </p>
+                            <p th:text="${movie.description}"></p>
                         </div>
                     </div>
                 </div>

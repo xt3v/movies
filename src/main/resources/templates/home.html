@@ -64,32 +64,33 @@
 
     <section id="movies">
         <div class="movie-container">
-            <div th:each="movie : ${movies}" class="movie-card">
-                <div class="movie-header moviePic" th:style="${'background: url(/image/'+movie.images+') no-repeat;background-size: 100% 367px; background-position: 100% 100%;'}">
-                    <div class="header-icon-container">
-                        <a href="#">
-                            <i class="material-icons header-icon"></i>
-                        </a>
-                    </div>
-                </div><!--movie-header-->
-                <div class="movie-content">
-                    <div class="movie-content-header">
-                        <a href="#">
-                            <h3 class="movie-title" th:text="${movie.title}"></h3>
-                        </a>
-                    </div>
-                    <div class="movie-info">
-                        <div class="info-section">
-                            <label>Categories</label>
-                            <span th:each="cat : ${movie.categories}" th:text="${cat.name}"></span>
-                        </div><!--date,time-->
-                        <div class="info-section">
-                            <label>Rating</label>
-                            <span th:text="${movie.rating}">/10</span>
-                        </div><!--rating-->
-                    </div>
-                </div><!--movie-content-->
-            </divt>
+            <div th:each="movie : ${movies}" class="movie-card" >
+                   <div class="movie-header moviePic" th:style="${'background: url(/image/'+movie.images+') no-repeat;background-size: 100% 367px; background-position: 100% 100%;'}">
+                        <div class="header-icon-container">
+                            <a href="#">
+                                <i class="material-icons header-icon"></i>
+                            </a>
+                        </div>
+                    </div><!--movie-header-->
+
+                    <div class="movie-content">
+                        <div class="movie-content-header">
+                            <a th:href="${'/movie/'+movie.id}" >
+                                <h3 class="movie-title" th:text="${movie.title}"></h3>
+                            </a>
+                        </div>
+                        <div class="movie-info">
+                            <div class="info-section">
+                                <label>Categories</label>
+                                <span th:each="cat : ${movie.categories}" th:text="${cat.name}"></span>
+                            </div><!--date,time-->
+                            <div class="info-section">
+                                <label>Rating</label>
+                                <span th:text="${movie.rating}">/10</span>
+                            </div><!--rating-->
+                        </div>
+                    </div><!--movie-content-->
+            </div>
         </div>
     </section>
 
